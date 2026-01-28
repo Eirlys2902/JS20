@@ -36,6 +36,7 @@
             height: 100vh;
             overflow: hidden;
             backdrop-filter: blur(4px) brightness(0.9);
+            padding: 0 20px 20px 20px;
         }
 
         .app-title {
@@ -43,13 +44,13 @@
             font-size: 32px;
             font-weight: 900;
             background: linear-gradient(to right, #00ffff, #ff00ff);
-            -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             filter: var(--title-glow);
             letter-spacing: 2px;
             text-transform: uppercase;
             transition: font-size 0.3s ease;
+            text-align: center;
         }
 
         .app-subtitle {
@@ -88,7 +89,6 @@
             position: relative;
             box-shadow: var(--glass-shadow);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             transition: all 0.3s ease;
         }
 
@@ -188,6 +188,9 @@
         }
 
         @media (min-width: 768px) {
+            body {
+                padding: 0;
+            }
             .app-title { 
                 font-size: 48px; 
                 margin-bottom: 10px; 
@@ -245,37 +248,36 @@
         }
         
         @media (max-height: 700px) and (max-width: 767px) {
-            .app-title { 
-                font-size: 26px; 
-                margin-bottom: 5px; 
+            .app-title {
+                font-size: 26px;
+                margin-bottom: 5px;
             }
-            .app-subtitle { 
-                font-size: 14px; 
-                margin-bottom: 10px; 
+            .app-subtitle {
+                font-size: 14px;
+                margin-bottom: 10px;
             }
-            .main-box { 
-                height: 250px; 
-                width: 110px; 
-                margin-bottom: 20px; 
+            .main-box {
+                height: 250px;
+                width: 110px;
+                margin-bottom: 20px;
             }
-            .text { 
-                font-size: 14px; 
-                margin-bottom: 10px; 
+            .text {
+                font-size: 14px;
+                margin-bottom: 10px;
             }
-            .container { 
-                width: 240px; 
+            .container {
+                width: 240px;
             }
-            .box { 
-                height: 75px; 
-                width: 40px; 
-                font-size: 12px; 
-                padding-bottom: 30px;
+            .box {
+                height: 75px;
+                width: 40px;
+                font-size: 12px;
             }
-            .filled { 
-                font-size: 24px; 
+            .filled {
+                font-size: 24px;
             }
-            .remain-info span { 
-                font-size: 20px; 
+            .remain-info span {
+                font-size: 20px;
             }
         }
     </style>
@@ -311,54 +313,55 @@
     </div>
 
     <script>
-        const boxes = document.querySelectorAll('.box')
-        const liters = document.getElementById('liters')
-        const percentage = document.getElementById('percentage')
-        const remained = document.getElementById('remained')
-        const bigCup = document.querySelector('.main-box');
+        {
+            const list = document.querySelectorAll('.box')
+            const l = document.getElementById('liters')
+            const p = document.getElementById('percentage')
+            const rem = document.getElementById('remained')
 
-        updateBigCup()
+            update()
 
-        boxes.forEach((box, idx) => {
-            box.addEventListener('click', () => highlightCups(idx))
-        })
-
-        function highlightCups(idx) {
-            if (boxes[idx].classList.contains('full') && !boxes[idx].nextElementSibling?.classList.contains('full')) {
-                idx--
-            }
-
-            boxes.forEach((box, idx2) => {
-                if(idx2 <= idx) {
-                    box.classList.add('full')
-                } else {
-                    box.classList.remove('full')
-                }
+            list.forEach((box, idx) => {
+                box.addEventListener('click', () => clickCup(idx))
             })
 
-            updateBigCup()
-        }
+            function clickCup(idx) {
+                if (list[idx].classList.contains('full') && !list[idx].nextElementSibling?.classList.contains('full')) {
+                    idx--
+                }
 
-        function updateBigCup() {
-            const fullCups = document.querySelectorAll('.box.full').length
-            const totalCups = boxes.length
-            
-            if(fullCups === 0) {
-                percentage.style.visibility = 'hidden'
-                percentage.style.height = 0
-            } else {
-                percentage.style.visibility = 'visible'
-                percentage.style.height = `${(fullCups / totalCups) * 100}%`
-                percentage.innerText = `${(fullCups / totalCups) * 100}%`
+                list.forEach((box, idx2) => {
+                    if(idx2 <= idx) {
+                        box.classList.add('full')
+                    } else {
+                        box.classList.remove('full')
+                    }
+                })
+
+                update()
             }
 
-            if(fullCups === totalCups) {
-                remained.style.visibility = 'hidden'
-                remained.style.height = 0
-            } else {
-                remained.style.visibility = 'visible'
-                remained.style.flex = 1 
-                liters.innerText = `${2 - (250 * fullCups / 1000)}L`
+            function update() {
+                const fill = document.querySelectorAll('.box.full').length
+                const total = list.length
+                
+                if(fill === 0) {
+                    p.style.visibility = 'hidden'
+                    p.style.height = 0
+                } else {
+                    p.style.visibility = 'visible'
+                    p.style.height = `${(fill / total) * 100}%`
+                    p.innerText = `${(fill / total) * 100}%`
+                }
+
+                if(fill === total) {
+                    rem.style.visibility = 'hidden'
+                    rem.style.height = 0
+                } else {
+                    rem.style.visibility = 'visible'
+                    rem.style.flex = 1 
+                    l.innerText = `${2 - (250 * fill / 1000)}L`
+                }
             }
         }
     </script>
