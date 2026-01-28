@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Drink Water</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fill-color: linear-gradient(to top, #6a85b6 0%, #bac8e0 100%);
+            --text-color: #fff;
+            --glass-bg: rgba(255, 255, 255, 0.35);
+            --glass-border: 4px solid rgba(255, 255, 255, 0.95);
+            --glass-shadow: 0 0 25px rgba(255, 255, 255, 0.3), 0 10px 40px rgba(0, 0, 0, 0.4);
+            --text-shadow-solid: 1px 1px 2px #000000, 0 0 1em rgba(0,0,0,0.5);
+            --title-glow: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: url('https://i.pinimg.com/1200x/37/87/1a/37871a83433d49aa231e81b01123dbd9.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            backdrop-filter: blur(4px) brightness(0.9);
+        }
+
+        .app-title {
+            margin: 10px 0 5px;
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(to right, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: var(--title-glow);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: font-size 0.3s ease;
+        }
+
+        .app-subtitle {
+            font-weight: 700;
+            margin: 5px 0 20px;
+            font-size: 18px;
+            text-shadow: var(--text-shadow-solid);
+            letter-spacing: 1px;
+            transition: font-size 0.3s ease;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-box {
+            background-color: var(--glass-bg);
+            border: var(--glass-border);
+            height: 330px; 
+            width: 150px;
+            border-radius: 0 0 15px 15px; 
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .filled {
+            background-image: var(--fill-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 30px;
+            height: 0;
+            transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            width: 100%;
+        }
+
+        .remain-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex: 1;
+            transition: flex 0.4s ease;
+            z-index: 10;
+        }
+
+        .remain-info span {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: var(--text-shadow-solid);
+            transition: font-size 0.3s ease;
+        }
+
+        .remain-info small {
+            font-size: 12px;
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            text-shadow: var(--text-shadow-solid);
+        }
+
+        .text {
+            text-align: center;
+            margin: 0 0 15px;
+            font-size: 16px;
+            font-weight: 700;
+            text-shadow: var(--text-shadow-solid);
+            color: #e0f7fa;
+            transition: font-size 0.3s ease;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            width: 280px;
+            transition: width 0.3s ease;
+        }
+
+        .box {
+            height: 95px; 
+            width: 50px;
+            border-radius: 0 0 10px 10px; 
+            background-color: rgba(255, 255, 255, 0.4);
+            border: 3px solid rgba(255, 255, 255, 1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+            transition: all 0.3s ease;
+            color: #1a2a6c;
+            margin: 5px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .box:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .box.full {
+            background-image: var(--fill-color);
+            color: #fff;
+            border-color: #fff;
+            box-shadow: 0 0 15px rgba(106, 133, 182, 0.8);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        @media (min-width: 768px) {
+            .app-title { 
+                font-size: 48px; 
+                margin-bottom: 10px; 
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+            }
+            .app-subtitle { 
+                font-size: 24px; 
+                margin-bottom: 30px; 
+            }
+            .content-wrapper {
+                flex-direction: row;
+                gap: 40px; 
+                margin-top: 30px;
+                justify-content: center;
+                padding: 0 20px;
+            }
+            .main-box {
+                width: 190px;
+                height: 400px;
+                margin-bottom: 0;
+                border-radius: 0 0 25px 25px;
+            }
+            .filled {
+                font-size: 38px;
+            }
+            .remain-info span {
+                font-size: 36px;
+            }
+            .remain-info small {
+                font-size: 14px;
+            }
+            .text {
+                margin-bottom: 30px;
+                font-size: 20px;
+            }
+            .controls-wrapper {
+                align-items: center;
+            }
+            .container {
+                width: 340px;
+            }
+            .box {
+                width: 60px;
+                height: 115px;
+                font-size: 16px;
+                margin: 10px;
+                border-radius: 0 0 15px 15px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .content-wrapper {
+                gap: 120px;
+            }
+        }
+        
+        @media (max-height: 700px) and (max-width: 767px) {
+            .app-title { font-size: 26px; margin-bottom: 5px; }
+            .app-subtitle { font-size: 14px; margin-bottom: 10px; }
+            .main-box { height: 250px; width: 110px; margin-bottom: 20px; }
+            .text { font-size: 14px; margin-bottom: 10px; }
+            .container { width: 240px; }
+            .box { height: 75px; width: 40px; font-size: 12px; }
+            .filled { font-size: 24px; }
+            .remain-info span { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-title">Drink Water</div>
+    <div class="app-subtitle">Goal: 2 Liters</div>
+
+    <div class="content-wrapper">
+        <div class="main-box">
+            <div class="remain-info" id="remained">
+                <span id="liters">2L</span>
+                <small>Remained</small>
+            </div>
+
+            <div class="filled" id="percentage"></div>
+        </div>
+
+        <div class="controls-wrapper">
+            <p class="text">Select how many glasses of water that you have drank</p>
+
+            <div class="container">
+                <div class="box">250 ml</div>
+                <div class="box">250 ml</div>
+                <div class="box">250 ml</div>
+                <div class="box">250 ml</div>
+                <div class="box">250 ml</div>
+                <div class="box">250 ml</div>
+                <div class="box">250 ml</div>
+                <div class="box">250 ml</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const boxes = document.querySelectorAll('.box')
+        const liters = document.getElementById('liters')
+        const percentage = document.getElementById('percentage')
+        const remained = document.getElementById('remained')
+        const bigCup = document.querySelector('.main-box');
+
+        updateBigCup()
+
+        boxes.forEach((box, idx) => {
+            box.addEventListener('click', () => highlightCups(idx))
+        })
+
+        function highlightCups(idx) {
+            if (boxes[idx].classList.contains('full') && !boxes[idx].nextElementSibling?.classList.contains('full')) {
+                idx--
+            }
+
+            boxes.forEach((box, idx2) => {
+                if(idx2 <= idx) {
+                    box.classList.add('full')
+                } else {
+                    box.classList.remove('full')
+                }
+            })
+
+            updateBigCup()
+        }
+
+        function updateBigCup() {
+            const fullCups = document.querySelectorAll('.box.full').length
+            const totalCups = boxes.length
+            
+            if(fullCups === 0) {
+                percentage.style.visibility = 'hidden'
+                percentage.style.height = 0
+            } else {
+                percentage.style.visibility = 'visible'
+                percentage.style.height = `${(fullCups / totalCups) * 100}%`
+                percentage.innerText = `${(fullCups / totalCups) * 100}%`
+            }
+
+            if(fullCups === totalCups) {
+                remained.style.visibility = 'hidden'
+                remained.style.height = 0
+            } else {
+                remained.style.visibility = 'visible'
+                remained.style.flex = 1 
+                liters.innerText = `${2 - (250 * fullCups / 1000)}L`
+            }
+        }
+    </script>
+</body>
+</html>
